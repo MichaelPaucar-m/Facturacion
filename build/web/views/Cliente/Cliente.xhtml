@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../plantilla/plantilla.xhtml">
+
+            <ui:define name="content">
+                <h1>Datos del CLIENTE</h1>  
+
+
+                <h:form>
+                    <p:commandButton value="Nuevo Cliente" actionListener="#{clienteBean.prepareCliente()}" 
+                                     oncomplete="PF('DialogNuevoCliente').show()"
+                                     update="formNuevoCLiente"/>
+                </h:form>   
+
+
+                <h:form id="formListaClientes"> 
+                    <p:dataTable id="tablaClientes"  paginator="true" paginatorPosition="top"
+                                 var="cliente" value="#{clienteBean.clientes}"> 
+                        <p:column headerText="Codigo">
+                            <h:outputText value="#{cliente.codCliente}"/>
+                        </p:column> 
+
+                        <p:column headerText="Nombre delcliente">
+                            <h:outputText value="#{cliente.nombres} #{cliente.apellidos}"/>
+                        </p:column> 
+
+                        <p:column headerText="  Direccion">
+                            <h:outputText value="#{cliente.direccion}"/>
+                        </p:column> 
+
+                        <p:column headerText="Modificar">
+                            <p:commandButton value="Modificar" oncomplete="PF('DialogModificarCliente').show()"
+                                             update='formModificarCliente'>  
+                                <f:setPropertyActionListener target="#{clienteBean.cliente}" value="#{cliente}" />
+
+                            </p:commandButton>
+                        </p:column> 
+
+                        <p:column headerText="Eliminar" >
+                            <p:commandButton value="Eliminar" oncomplete="PF('DialogEliminarCliente').show()" 
+                                             update="formEliminarCliente">
+                            <f:setPropertyActionListener target="#{clienteBean.cliente}" value="#{cliente}" /> 
+                            </p:commandButton>
+                        </p:column> 
+                    </p:dataTable> 
+                </h:form>
+
+                <h:form id="formNuevoCLiente"> 
+                    <p:dialog id="dlgNuevoCliente" widgetVar="DialogNuevoCliente" resizable="false" showEffect="explode"
+                              hideEffect="explode" modal="true"> 
+                        <p:panelGrid columns="2" style="margin: 0 auto">
+                            <p:outputLabel value="Nombre"/> 
+                            <p:inputText value="#{clienteBean.cliente.nombres}"/>
+                            <p:outputLabel value="Apellido"/> 
+                            <p:inputText value="#{clienteBean.cliente.apellidos}"/>
+                            <p:outputLabel value="Direccion"/> 
+                            <p:inputText value="#{clienteBean.cliente.direccion}"/>
+                        </p:panelGrid>
+                        <p:commandButton value="Modificar" actionListener="#{clienteBean.insertCliente()}"
+                                         update="formListaClientes:tablaClientes"
+                                         oncomplete="PF('DialogNuevoCliente').hide()"/> 
+                        <p:commandButton value="Cancelar" oncomplete="PF('DialogNuevoCliente).hide()"/> 
+                        
+
+                    </p:dialog>
+                </h:form> 
+
+                <h:form id="formModificarCliente"> 
+                    <p:dialog id="dlgModificarCliente" widgetVar="DialogModificarCliente" resizable="false" showEffect="explode"
+                              hideEffect="explode" modal="true"> 
+                        <p:panelGrid columns="2" style="margin: 0 auto">
+                            <p:outputLabel value="Nombre"/> 
+                            <p:inputText value="#{clienteBean.cliente.nombres}"/>
+                            <p:outputLabel value="Apellido"/> 
+                            <p:inputText value="#{clienteBean.cliente.apellidos}"/>
+                            <p:outputLabel value="Direccion"/> 
+                            <p:inputText value="#{clienteBean.cliente.direccion}"/>
+                        </p:panelGrid>
+                        <p:commandButton value="Guaerda" actionListener="#{clienteBean.updateCliente()}"
+                                         update="formListaClientes:tablaClientes"
+                                         oncomplete="PF('DialogModificarCliente').hide()"/> 
+                        <p:commandButton value="Cancelar" oncomplete="PF('DialogModificarCliente).hide()"/>
+
+                    </p:dialog>
+                </h:form> 
+
+
+                <h:form id="formEliminarCliente"> 
+                    <p:dialog id="dlgEliminarCliente" widgetVar="DialogEliminarCliente" resizable="false" showEffect="explode"
+                              hideEffect="explode" modal="true"> 
+                        <h:outputText value="DESEA ELIMINAR EL CLIENTE!!!!"/>
+                        <p:commandButton value="SI" actionListener="#{clienteBean.deleteCliente()}"
+                                         update="formListaClientes:tablaClientes"
+                                         oncomplete="PF('DialogEliminarCliente').hide()"/> 
+                        <p:commandButton value="No" oncomplete="PF('DialogEliminarCliente).hide()"/>
+
+                    </p:dialog>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

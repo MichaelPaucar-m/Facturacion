@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 18/09/2023 03:25:33 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+  <class catalog="facturacion" name="sys.modelo.Usuario" optimistic-lock="version" table="usuario">
+    <id name="codUsuario" type="java.lang.Integer">
+      <column name="codUsuario"/>
+      <generator class="identity"/>
+    </id>
+    <many-to-one class="sys.modelo.Vendedor" fetch="select" name="vendedor">
+      <column name="codVendedor" not-null="true"/>
+    </many-to-one>
+    <property name="nombreUsuario" type="string">
+      <column length="50" name="nombreUsuario" not-null="true"/>
+    </property>
+    <property name="password" type="string">
+      <column name="password" not-null="true"/>
+    </property>
+  </class>
+</hibernate-mapping>
